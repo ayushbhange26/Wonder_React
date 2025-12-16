@@ -1,19 +1,16 @@
-import React,{useState} from 'react'
+import React,{useEffect} from 'react'
+
+// useEffect hook
 
 const App = () => {
-  const [Data,setData] = useState({
-    loading : false,
-    counter : 0,
-    users : []
-  })
-  function onHandleClick(){
-    setData({...Data, counter : Data.counter + 1})
-  }
+  const [counter,setCounter]=React.useState(0);
+  useEffect(()=>{
+    console.log("useEffect called");
+    document.title=`You clicked ${counter} times`;
+  },[counter]);
   return (
    <>
-     <h1>{Data.counter}</h1>
-     <input type="text" />
-     <button onClick={onHandleClick}>Increase</button>
+    <button onClick={()=>setCounter(counter+1)} >Click</button>
    </>
   )
 }
