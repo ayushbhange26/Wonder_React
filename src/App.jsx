@@ -1,21 +1,32 @@
-import React,{useEffect} from 'react'
+import React,{useState, useEffect} from 'react'
+import axios from 'axios'
 
 // useEffect hook
 
 const App = () => {
-  const [counter,setCounter]=React.useState(0);
-  const [counter2,setCounter2]=React.useState(0);
-  // if dependency array is empty then useEffect will be called only once after initial render
-  // if dependency array has some value then useEffect will be called only when that value changes
-  // if dependency array is not provided then useEffect will be called after every render
-  useEffect(()=>{
-    console.log("useEffect called");
-    document.title=`You clicked ${counter} times`;
-  },[counter]);
+  // useEffect hook part 2 doing data fetching
+
+  const [users, setUsers] = useState([])
+  useEffect(() => {
+    axios.get('http://localhost:3004/users')
+    .then((response) => {
+      console.log(response.data)
+      setUsers(response.data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  },[])
   return (
    <>
-    <button onClick={()=>setCounter(counter+1)} >Click1</button>
-    <button onClick={()=>setCounter2(counter2+1)} >Click2</button>
+    <div>
+      {users.map((user)=>(
+        <div key={user.id}>
+          <h2>{user.name}</h2>
+          <p>{user.email}</p>
+        </div>
+      ))}
+    </div>
    </>
   )
 }
