@@ -1,4 +1,4 @@
-import React,{useReducer} from 'react'
+import React,{useEffect, useReducer} from 'react'
 
 
 
@@ -8,20 +8,29 @@ const App = () => {
 
   // ye hamari initial state hogi
   const initialState = {
-    count : 0
+    count : 0,
+    isLoading : false,
   }
   // reducer function jo state or action lega
   const reducer = (state, action) => {
     switch(action.type){
       case "INCREMENT":
-        return {count :state.count + 1};
+        // return {...state,count :state.count + 1};  // aise bhi likh skte hai multiple state hone pe
+        return {...state,count :state.count + 1,isLoading:true};
       case "DECREMENT":
         return {count :state.count - 1};
+        // aur default mein normal state return krdega
       default:
         return state;  
     }
   }
-   const [state,dispatch] = useReducer(reducer, initialState);
+  const [state,dispatch] = useReducer(reducer, initialState);
+
+  useEffect(()=>{
+    console.log("Re-render page")
+
+  },[state.isLoading])
+  
   return (
    
    <>
