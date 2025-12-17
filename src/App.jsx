@@ -1,32 +1,34 @@
-import React,{useState, useEffect} from 'react'
-import axios from 'axios'
+import React,{useReducer} from 'react'
 
-// useEffect hook
+
 
 const App = () => {
-  // useEffect hook part 2 doing data fetching
 
-  const [users, setUsers] = useState([])
-  useEffect(() => {
-    axios.get('http://localhost:3004/users')
-    .then((response) => {
-      console.log(response.data)
-      setUsers(response.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  },[])
+  // now to learn useReducer hook
+
+  // ye hamari initial state hogi
+  const initialState = {
+    count : 0
+  }
+  // reducer function jo state or action lega
+  const reducer = (state, action) => {
+    switch(action.type){
+      case "INCREMENT":
+        return {count :state.count + 1};
+      case "DECREMENT":
+        return {count :state.count - 1};
+      default:
+        return state;  
+    }
+  }
+   const [state,dispatch] = useReducer(reducer, initialState);
   return (
+   
    <>
-    <div>
-      {users.map((user)=>(
-        <div key={user.id}>
-          <h2>{user.name}</h2>
-          <p>{user.email}</p>
-        </div>
-      ))}
-    </div>
+    <h1>{state.count}</h1>
+    {/* onclick pe hum dispatch function call krenge jisse apna action jayega */}
+    <button onClick={() => dispatch({type:"INCREMENT"})}>Increment</button>
+    <button onClick={() => dispatch({type:"DECREMENT"})}>Decrement</button>
    </>
   )
 }
