@@ -1,13 +1,19 @@
 import React from 'react'
-import { ThemeContext } from './theme';
+import { useRef } from 'react'
 
 const App = () => {
-  const [theme, toggleTheme] = React.useContext(ThemeContext);
-  console.log(theme,toggleTheme);
+  const textInput = useRef();
+  // it can't re-render the page when the value changes
+  const textHandle = () => {
+    console.log(textInput.current);
+  }
   return (
-    <div style={{ ...theme, minHeight: "100vh", width: "100%", padding: "0px", margin: "0px" }}>
-      <h1 style={theme}>Welcome to All About React</h1>
-      <button onClick={toggleTheme}>toggle</button>
+    <div>
+      <input type="text" ref={textInput} />
+      <button onClick={textHandle}>
+        Focus the input
+      </button>
+      
     </div>
   )
 }
